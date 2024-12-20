@@ -1,3 +1,27 @@
 button.active {
     background-color: orange;
 }
+
+tr:nth-child(even) {
+    background-color: #479e9e;
+}
+th {
+    background-color: #1b8f8f;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 0px 5px 0px 5px;
+}
+table {
+    margin: auto;
+    align-items: center;
+}
+@media (min-width: 992px) {
+    th, td {
+      height: 80px;
+      align-items: center;
+      margin: auto;
+    }
+} 

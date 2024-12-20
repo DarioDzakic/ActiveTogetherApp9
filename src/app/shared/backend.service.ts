@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { StoreService } from './store.service';
 import { Course } from './Interfaces/Course';
 import { Registration } from './Interfaces/Registration';
+import { catchError, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +36,11 @@ export class BackendService {
   }
 
   public addRegistration(registration: any, page: number) {
-    this.http.post('http://localhost:5000/registrations', registration).subscribe(_ => {
-      this.getRegistrations(page);
-    })
+    return this.http.post('http://localhost:5000/registrations', registration).pipe(
+      map(() => {
+        this.getRegistrations(page);
+        return true;
+      }),catchError(() => {return of(false)})
+    )
   }
 }

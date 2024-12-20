@@ -1,3 +1,9 @@
-<app-button (buttonClickedEvent)="buttonClicked()" [showForm]="showForm"></app-button>
+<div class="py-4 align-items d-flex justify-content-center align-items-center">
+    <span>Wenn Sie an einem Kurs interessiert sind, melden sie sich hier: </span>
+    <button mat-button (click)="buttonClicked()" (formClosed)="showForm=false">
+        <mat-icon>{{ showForm ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+        {{showForm? 'Formular anzeigen': 'Formular schließen'}}
+    </button>
+</div>
 <app-add-data *ngIf="showForm"></app-add-data>
 <app-data></app-data>

@@ -1,0 +1,7 @@
+@media (min-width: 992px) {
+    .custom-row-height {
+      height: 150px;
+      display: flex;
+      align-items: center;
+    }
+}

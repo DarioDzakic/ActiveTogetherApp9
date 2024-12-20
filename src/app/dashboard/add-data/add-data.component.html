@@ -1,11 +1,98 @@
-<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-    <h2>Zum Kurs anmelden!</h2>
-    <input placeholder="Name" type="input" formControlName="name"><br />
-    <input placeholder="Geburtsdatum" type="date" formControlName="birthdate"><br />
-    <select formControlName="courseId">
-        <option value="" disabled>Bitte auswählen</option>
-        <option *ngFor="let course of storeService.courses" [ngValue]="course.id">{{course.name}}, {{course.instructor}}</option>
-    </select>
-
-    <button type="submit">Erfassen</button>
-</form>
+<div class="d-flex justify-content-center">
+    <form
+      [formGroup]="registrationForm"
+      (ngSubmit)="onSubmit()"
+      class="d-inline-flex flex-column justify-content-center py-4"
+    >
+      <h2>Zum Kurs anmelden!</h2>
+      <mat-form-field class="example-full-width">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          placeholder="Name"
+          type="input"
+          formControlName="name"
+        /><br />
+        @if (this.registrationForm.get("name").hasError("required")) {
+        <mat-error>{{ "Bitte geben sie einen Namen an" }}</mat-error>
+        }
+        @if (this.registrationForm.get("name").hasError("minlength")) {
+          <mat-error>{{ "Bitte geben sie einen Namen mit mindesten 2 Buchstaben ein" }}</mat-error>
+          }
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Wähle dein Geburtstag</mat-label>
+        <input
+          placeholder="Geburtsdatum"
+          matInput
+          [matDatepicker]="picker"
+          formControlName="birthdate"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        @if (this.registrationForm.get("birthdate").hasError("required")) {
+        <mat-error>{{ "Bitte geben sie ein korrektes Datum an" }}</mat-error>
+        }
+        @if (this.registrationForm.get("birthdate").hasError("minor")) {
+          <mat-error>{{ "Sie müssen mindestens 16 Jahre alt sein" }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Bitte auswählen</mat-label>
+        <mat-select formControlName="courseId">
+          @for (course of storeService.courses; track course) {
+          <mat-option [value]="course.id"
+            >{{ course.name }}, {{ course.instructor }}</mat-option
+          >
+          }
+        </mat-select>
+        @if (this.registrationForm.get("courseId").hasError("required")) {
+        <mat-error>{{ "Bitte wählen sie ein Item aus" }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-checkbox
+        class="pb-2"
+        [(ngModel)]="newsletter"
+        [ngModelOptions]="{ standalone: true }"
+        >Klick mich an wenn du einen Newsletter haben willst!</mat-checkbox
+      >
+      @if (newsletter) {
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          placeholder="Bitte geben Sie hier Ihre Email ein"
+          type="input"
+          formControlName="email"
+        /><br />
+        @if (this.registrationForm.get("email").hasError("required")) {
+        <mat-error>{{ "Bitte geben sie eine Email an" }}</mat-error>
+        }
+        @if (this.registrationForm.get("email").hasError("email")) {
+          <mat-error>{{ "Bitte geben sie eine korrekte Email an" }}</mat-error>
+        }
+      </mat-form-field>
+      }
+      <button mat-raised-button type="submit">Erfassen</button>
+      
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <mat-icon >{{'done'}}</mat-icon>
+            <strong class="me-auto">Erfolg!</strong>
+          
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            Sie haben sich erfolgreich zum Kurs angemeldet!
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
