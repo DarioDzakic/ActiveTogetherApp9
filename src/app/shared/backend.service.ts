@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { StoreService } from './store.service';
 import { Course } from './Interfaces/Course';
 import { Registration } from './Interfaces/Registration';
-import { catchError, map, of } from 'rxjs';
+import { catchError, map, of, timestamp } from 'rxjs';
+import dayjs from 'dayjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,15 +29,20 @@ export class BackendService {
       }
     };
 
-    this.http.get<Registration[]>(`http://localhost:5000/registrations?_expand=course&_page=${page}&_limit=2`, options).subscribe(data => {
+    this.http.get<Registration[]>(`http://localhost:5000/registrations?_expand=course&_page=${page}&_limit=5`, options).subscribe(data => {
       this.storeService.registrations = data.body!;
       this.storeService.registrationTotalCount = Number(data.headers.get('X-Total-Count'));
       this.storeService.registrationsLoading = false;
     });
   }
 
+  public deleteRegistration(registrationId: number){
+    return this.http.delete(`http://localhost:5000/registrations/${registrationId}`);
+  }
+
   public addRegistration(registration: any, page: number) {
-    return this.http.post('http://localhost:5000/registrations', registration).pipe(
+    const times = dayjs().format('YYYY-MM-DD HH:mm').toString();
+    return this.http.post('http://localhost:5000/registrations', {...registration, timeOfCreation: times}).pipe(
       map(() => {
         this.getRegistrations(page);
         return true;

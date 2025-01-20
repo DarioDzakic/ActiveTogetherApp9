@@ -6,6 +6,7 @@ import { StoreService } from '../shared/store.service';
 import { BackendService } from '../shared/backend.service';
 import { MatButtonModule } from '@angular/material/button';
 import {MatIcon, MatIconModule} from "@angular/material/icon";
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -16,9 +17,18 @@ import {MatIcon, MatIconModule} from "@angular/material/icon";
 })
 export class DashboardComponent {
   
+  constructor(private dialog: MatDialog) {}
+
   public showForm = false;
 
   buttonClicked() {
     this.showForm = !this.showForm;
   }
+
+  openDialog() {
+    this.dialog.open(AddDataComponent, {
+      width: '400px',
+    });
+  }
+
 }

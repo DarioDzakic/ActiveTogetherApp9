@@ -71,22 +71,52 @@
   ],
   "registrations": [
     {
-      "id": 1,
-      "name": "Testuser",
-      "birthdate": "2024-11-13",
-      "courseId": "_iL775j"
+      "name": "cc",
+      "courseId": "_iL775i",
+      "birthdate": "1997-02-12",
+      "email": null,
+      "timeOfCreation": "2025-01-20 00:51",
+      "id": 7
     },
     {
-      "name": "Julia Schabasser",
+      "name": "dd",
       "courseId": "_iL775i",
-      "birthdate": "1995-02-23",
+      "birthdate": "1997-02-12",
+      "email": null,
+      "timeOfCreation": "2025-01-20 00:21",
+      "id": 5
+    },
+    {
+      "name": "eee",
+      "courseId": "_iL775i",
+      "birthdate": "1997-02-12",
+      "email": null,
+      "timeOfCreation": "2025-01-20 00:23",
+      "id": 4
+    },
+    {
+      "name": "dd",
+      "courseId": "_iL775i",
+      "birthdate": "1997-02-12",
+      "email": null,
+      "timeOfCreation": "2025-01-20 00:21",
+      "id": 3
+    },
+    {
+      "name": "dd",
+      "courseId": "_iL775i",
+      "birthdate": "1997-02-12",
+      "email": null,
+      "timeOfCreation": "2025-01-20 00:21",
       "id": 2
     },
     {
-      "name": "Julia Schabasser",
-      "courseId": "_iL775a",
-      "birthdate": "1995-02-23",
-      "id": 3
+      "name": "dd",
+      "courseId": "_iL775i",
+      "birthdate": "1997-02-12",
+      "email": null,
+      "timeOfCreation": "2025-01-20 00:21",
+      "id": 1
     }
   ]
 }

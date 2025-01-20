@@ -2,32 +2,39 @@
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10 justify-content-center">
       <div class="col-12">
-      <table>
-        <thead>
-          <tr>
-            <th>Kurs</th>
-            <th>Veranstaltungsort</th>
-            <th>Adresse des Veranstaltungsortes</th>
-            <th>Öffentlich erreichbar?</th>
-            <th>Kursleiter</th>
-            <th>Alle Termine</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let course of storeService.courses">
-            <td>{{ course.name }}</td>
-            <td>{{ course.eventLocation.name }}</td>
-            <td>{{ course.eventLocation.address }}</td>
-            <td>
-              {{
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h2>Kurse</h2>
+            </div>
+          </div>
+        
+          <div class="row bg-light fw-bold border-bottom py-2">
+            <div class="col-md-2">Kurs</div>
+            <div class="col-md-2">Veranstaltungsort</div>
+            <div class="col-md-3">Adresse des Veranstaltungsortes</div>
+            <div class="col-md-1">Öffentlich erreichbar?</div>
+            <div class="col-md-2">Kursleiter</div>
+            <div class="col-md-2">Alle Termine</div>
+          </div>
+        
+          <div 
+            [ngClass]="{ 'bg-white': i % 2 === 0, 'bg-light': i % 2 !== 0 }"
+            class="row border-bottom py-2" 
+            *ngFor="let course of storeService.courses; let i = index">
+            <div class="col-md-2"><strong>{{ course.name }}</strong></div>
+            <div class="col-md-2">{{ course.eventLocation.name }}</div>
+            <div class="col-md-3">{{ course.eventLocation.address }}</div>
+            <div class="col-md-1">
+              <strong>{{
                 course.eventLocation.venueByPublicTansport == true
                   ? "Ja"
                   : "Nein"
-              }}
-            </td>
-            <td>{{ course.instructor }}</td>
-            <td>
-              <ul>
+              }}</strong>
+            </div>
+            <div class="col-md-2">{{ course.instructor }}</div>
+            <div class="col-md-2">
+              <ul class="list-unstyled">
                 <li *ngFor="let date of course.dates">
                   <span>{{
                     date.begin | date : "MMM dd, yyyy 'um' hh:mm a"
@@ -38,39 +45,82 @@
                   }}</span>
                 </li>
               </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+        
     </div>
       <br>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Geburtsdatum</th>
-            <th>Kurs</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let registration of storeService.registrations">
-            <td>{{ registration.name }}</td>
-            <td>{{ registration.birthdate }}</td>
-            <td>{{ registration.course.name }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <br>
-      <div class="d-flex justify-content-center">
-      <button
-        [ngClass]="page == storeService.currentPage ? 'active' : ''"
-        (click)="selectPage(page)"
-        type="button"
-        *ngFor="let page of returnAllPages()"
-      >
-        {{ page }}
-      </button>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h2>Registrierungen</h2>
+          </div>
+        </div>
+
+        <div class="row bg-light fw-bold border-bottom py-2">
+          <div class="col-md-3">Name</div>
+          <div class="col-md-2">Geburtsdatum</div>
+          <div class="col-md-2">Kurs</div>
+          <div class="col-md-3"
+            (click)="sortByTimeOfCreation()">
+            <span *ngIf="sortOrder === 'asc'">↑</span>
+            <span *ngIf="sortOrder === 'desc'">↓</span>
+            Zeitpunkt der Erstellung
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+    
+        <div
+          [ngClass]="{ 'bg-white': i % 2 === 0, 'bg-light': i % 2 !== 0 }"
+          class="row border-bottom py-2" 
+          *ngFor="let registration of storeService.registrations; let i = index">
+          <div class="col-md-3">{{ registration.name }}</div>
+          <div class="col-md-2">{{ registration.birthdate }}</div>
+          <div class="col-md-2">{{ registration.course.name }}</div>
+          <div class="col-md-3">{{ registration.timeOfCreation }}</div>
+          <div class="col-md-1">
+            <button 
+              mat-raised-button 
+              color="primary"
+              (click)="abmelden(+registration.id, i)">
+              Abmelden
+            </button>
+          </div>
+
+          <div 
+          *ngIf="loadingIndexContains(i)" 
+          class="spinner-overlay d-flex align-items-center justify-content-center">
+          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+        </div>
+        </div>
+      </div>
+      
+      <div class="paginator d-flex justify-content-center">
+        <button
+          class="page-btn"
+          [ngClass]="{ 'active': page === storeService.currentPage }"
+          (click)="selectPage(page)"
+          type="button"
+          *ngFor="let page of returnAllPages()"
+        >
+          {{ page }}
+        </button>
+      </div>
+      
     </div>
+  </div>
+</div>
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <mat-icon>{{'done'}}</mat-icon>
+      <strong class="me-auto">Erfolg!</strong>
+    
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Sie haben sich erfolgreich vom Kurs abgemeldet!
     </div>
   </div>
 </div>

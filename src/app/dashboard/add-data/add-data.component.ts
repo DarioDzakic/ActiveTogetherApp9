@@ -13,6 +13,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import * as bootstrap from 'bootstrap';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import dayjs from 'dayjs'
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogModule,
+} from '@angular/material/dialog';
 
 export const MY_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -30,7 +36,11 @@ export const MY_DATE_FORMATS: MatDateFormats = {
   selector: 'app-add-data',
   standalone: true,  // standalone-Komponente
   imports: [SharedModule, MatInputModule, MatFormFieldModule, MatError, MatCheckboxModule, FormsModule, MatIconModule, MatIcon,
-     MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatButtonModule],  // Import der benötigten Module
+     MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatButtonModule,   MatDialogModule,
+     MatDialogActions,
+     MatDialogClose,
+     MatDialogContent,
+   ],  // Import der benötigten Module
   templateUrl: './add-data.component.html',
   styleUrls: ['./add-data.component.css'],
   providers: [ { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }]

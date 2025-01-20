@@ -4,6 +4,7 @@
         <mat-icon>{{ showForm ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
         {{showForm? 'Formular anzeigen': 'Formular schließen'}}
     </button>
+    <button mat-raised-button (click)="openDialog()">Anmelden</button>
 </div>
 <app-add-data *ngIf="showForm"></app-add-data>
 <app-data></app-data>
