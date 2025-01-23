@@ -46,10 +46,11 @@ export const MY_DATE_FORMATS: MatDateFormats = {
   providers: [ { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }]
 })
 export class AddDataComponent implements OnInit {
-  constructor(private formbuilder: FormBuilder, public storeService: StoreService, private backendService: BackendService) {
+  constructor(private formbuilder: FormBuilder, private backendService: BackendService) {
   }
   public registrationForm: any;
   public newsletter: boolean = false;
+  public storeService=StoreService;
 
 
 
@@ -75,7 +76,7 @@ export class AddDataComponent implements OnInit {
   onSubmit() {
     if(this.registrationForm.valid) {
       this.registrationForm.patchValue({birthdate: dayjs(this.registrationForm.get("birthdate").value).format("YYYY-MM-DD")})
-      this.backendService.addRegistration(this.registrationForm.value, this.storeService.currentPage).subscribe(result =>
+      this.backendService.addRegistration(this.registrationForm.value, 1).subscribe(result =>
         {if(result){
           this.showToast();
         }

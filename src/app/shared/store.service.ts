@@ -9,7 +9,7 @@ export class StoreService {
 
   constructor() { }
 
-  public courses: Course[] = [];
+  public static courses: Course[] = [];
   public registrations: Registration[] = [];
   public registrationTotalCount: number = 0;
   public currentPage: number = 1;

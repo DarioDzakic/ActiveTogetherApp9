@@ -15,7 +15,7 @@ export class BackendService {
 
   public getCourses() {
       this.http.get<Course[]>('http://localhost:5000/courses?_expand=eventLocation').subscribe(data => {
-        this.storeService.courses = data;
+        StoreService.courses = data;
         this.storeService.cousesLoading = false;
       });
   }
